@@ -1,7 +1,5 @@
 export class UsersService {
-  constructor(options = {}) {
-    console.log(options);
-  }
+  constructor(options = {}) {}
 }
 
 let service;
@@ -10,6 +8,4 @@ export default (options = {}) => {
     service = new UsersService(options);
   }
   return service;
-}
-
-
+};

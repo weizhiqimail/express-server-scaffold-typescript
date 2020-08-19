@@ -1,11 +1,11 @@
-export class ViewsService {
+export class RedisService {
   constructor(options = {}) {}
 }
 
 let service;
 export default (options = {}) => {
   if (!service) {
-    service = new ViewsService(options);
+    service = new RedisService(options);
   }
   return service;
 };

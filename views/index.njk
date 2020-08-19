@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="/style/common.css">
-</head>
-<body>
-<header>
-    <h3>hello {{ title }}</h3>
-</header>
-</body>
-</html>
+{% extends './layout/base.njk' %}
+
+{% block custom_content %}
+    <h3>hello </h3>
+{% endblock %}

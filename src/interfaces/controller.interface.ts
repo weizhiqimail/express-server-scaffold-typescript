@@ -5,5 +5,5 @@ export interface ControllerInterface {
 
   router: Router;
 
-  initRoutes: () => void
+  initRoutes: () => void;
 }

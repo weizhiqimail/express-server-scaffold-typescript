@@ -6,8 +6,6 @@ export default function errorHandle(
   res: Response,
   next: NextFunction,
 ) {
-  if (res.headersSent) {
-    return next(error);
-  }
+  req.flash('error', error.message);
   res.redirect('/error');
 }

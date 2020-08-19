@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{{ scaffold.title }}{% endblock %}</title>
+    <link rel="stylesheet" href="/libs/bootstrap-4.5.0/css/bootstrap.min.css">
+    {% block custom_css %}{% endblock %}
+</head>
+<body>
+
+{% block custom_content %}
+{% endblock %}
+
+<script src="/libs/jquery-3.5.1/jquery.min.js"></script>
+<script src="/libs/bootstrap-4.5.0/js/bootstrap.min.js"></script>
+
+{% block custom_js %}
+{% endblock %}
+
+</body>
+</html>

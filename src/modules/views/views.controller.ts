@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 
 import { ControllerInterface } from '../../interfaces/controller.interface';
-
 import viewsService, { ViewsService } from './views.service';
 import pkg from '../../../package.json';
 

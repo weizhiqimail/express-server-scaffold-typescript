@@ -1,19 +1,19 @@
 import express from 'express';
 
 import { ControllerInterface } from '../../interfaces/controller.interface';
-import usersService, { UsersService } from './users.service';
+import authService, { AuthService } from './auth.service';
 
-export default class UsersController implements ControllerInterface {
+export default class AuthController implements ControllerInterface {
   public path: string;
 
   public router = express.Router();
 
-  private usersService: UsersService;
+  private authService: AuthService;
 
   constructor({ path }) {
     this.path = path;
 
-    this.usersService = usersService();
+    this.authService = authService();
 
     this.initRoutes();
   }
