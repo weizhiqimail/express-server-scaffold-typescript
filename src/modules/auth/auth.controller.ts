@@ -1,21 +1,20 @@
 import express, { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
-import { validate } from 'class-validator';
 
 import { ControllerInterface } from '../../types/controller.interface';
-import validationMiddleware from '../../middlewares/validation';
-import authService, { AuthService } from './auth.service';
-import { AuthRegisterDto, AuthLoginDto } from './auth.dto';
+import validationMiddleware from '../../middlewares/validation.middleware';
+import authService from './auth.service';
+import usersOrmService from '../../service/users.orm.service';
+import { AuthLoginDto, AuthRegisterDto } from './auth.dto';
 import { Users } from '../../orm/entity/users.entity';
+import { existResponse, loginFailResponse, unifyResponse } from '../../helper/return-data';
+import { hashPassword } from '../../helper/common';
 
 export default class AuthController implements ControllerInterface {
   public path: string;
   public router = express.Router();
-  private authService: AuthService;
 
   constructor() {
     this.path = '/auth';
-    this.authService = authService();
     this.initRoutes();
   }
 
@@ -26,16 +25,27 @@ export default class AuthController implements ControllerInterface {
 
   public async register(req: Request, res: Response) {
     const body: AuthRegisterDto = req.body;
-    const usersRepository = getRepository(Users);
+    const checkUser = await usersOrmService().findByEmail(body.email);
+    if (checkUser) {
+      return existResponse(res, '邮箱已被使用');
+    }
     const user = new Users();
     user.email = body.email;
-    user.password = body.password;
-    const result = await usersRepository.save(user);
-    return res.json(result);
+    user.password = hashPassword(body.password);
+    const result = await usersOrmService().create(user);
+    return unifyResponse(res, { data: result });
   }
 
   public async login(req: Request, res: Response) {
     const body: AuthLoginDto = req.body;
-    return res.json(body);
+    const checkUser = await usersOrmService().findByEmail(body.email);
+    if (!checkUser) {
+      return existResponse(res, '邮箱不存在');
+    }
+    if (!authService().comparePassword(checkUser.password, body.password)) {
+      return loginFailResponse(res, '登录失败，用户名或密码错误');
+    }
+    req.session.user = checkUser;
+    return unifyResponse(res);
   }
 }

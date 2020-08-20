@@ -1,9 +1,8 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { plainToClass } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
-import { parseValidationError } from '../helper/common';
 
-export default function validation<T>(type: any, skipMissingProperties = false): RequestHandler {
+export default function validationMiddleware<T>(type: any, skipMissingProperties = false): RequestHandler {
   return (req: Request, res: Response, next: NextFunction) => {
     let method = req.method.toUpperCase();
     let validateParams;
@@ -18,8 +17,12 @@ export default function validation<T>(type: any, skipMissingProperties = false):
       skipMissingProperties,
     }).then((errors: Array<ValidationError>) => {
       if (errors.length > 0) {
-        const messages = errors.map((error: ValidationError) => parseValidationError(error));
-        return res.status(400).json({ messages });
+        const errorMessage = {};
+        errors.forEach((error: ValidationError) => {
+          const key = error.property;
+          errorMessage[key] = Object.values(error.constraints);
+        });
+        return res.status(400).json({ error: errorMessage });
       } else {
         next();
       }

@@ -1,14 +1,16 @@
+export const AUTH_WHITE_LIST = [];
+
 export const EMAIL = {
   minLength: 10,
   maxLength: 32,
-  lengthMessage: '邮箱长度必须在 10 到 32 为之间',
+  lengthMessage: '邮箱长度必须在 10 到 32 位',
   isEmailMessage: '邮箱格式不合法',
 };
 
 export const PASSWORD = {
   minLength: 10,
   maxLength: 32,
-  lengthMessage: '密码长度必须在 10 到 32 位之间',
+  lengthMessage: '密码长度必须在 10 到 32 位',
   matchMessage: '两次输入的密码不一致',
 };
 

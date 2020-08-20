@@ -1,5 +1,5 @@
 import os from 'os';
-import { ValidationError } from 'class-validator';
+import crypto from 'crypto';
 
 export const getIPAddress = (): string => {
   const interfaces = os.networkInterfaces();
@@ -14,8 +14,9 @@ export const getIPAddress = (): string => {
   }
 };
 
-export function parseValidationError(error: ValidationError) {
-  return {
-    [error.property]: Object.values(error.constraints),
-  };
+export function hashPassword(password: string): string {
+  return crypto.createHash('md5')
+    .update(password)
+    .update(process.env.PASSWORD_SALT)
+    .digest('hex');
 }

@@ -30,6 +30,7 @@
     "nunjucks": "^3.2.2",
     "redis": "^3.0.2",
     "reflect-metadata": "^0.1.13",
+    "statuses": "^2.0.0",
     "typeorm": "^0.2.25"
   },
   "devDependencies": {
@@ -44,6 +45,7 @@
     "@types/morgan": "^1.9.1",
     "@types/node": "^14.6.0",
     "@types/redis": "^2.8.25",
+    "@types/statuses": "^2.0.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",

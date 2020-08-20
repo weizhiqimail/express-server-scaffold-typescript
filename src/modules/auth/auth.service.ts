@@ -1,5 +1,13 @@
+import { hashPassword } from '../../helper/common';
+
 export class AuthService {
-  constructor(options = {}) {}
+  constructor(options = {}) {
+  }
+
+  comparePassword(oldPassword, newPassword): boolean {
+    return hashPassword(newPassword) === oldPassword;
+  }
+
 }
 
 let service;

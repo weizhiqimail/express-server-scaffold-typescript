@@ -9,7 +9,8 @@ import redis from 'redis';
 import connectRedis from 'connect-redis';
 import flash from 'connect-flash';
 
-import errorHandle from './errorHandle';
+import errorHandleMiddleware from './error-handle.middleware';
+import authMiddleware from './auth.middleware';
 import { MORGAN_LOG_FORMAT } from '../config';
 import pkg from '../../package.json';
 
@@ -42,7 +43,8 @@ export default async function initMiddlewares(server) {
     description: pkg.description,
   };
 
-  server.use(errorHandle);
+  server.use(authMiddleware());
+  server.use(errorHandleMiddleware);
   server.use(express.static(path.resolve(__dirname, '../../public')));
 
   server.use(helmet.permittedCrossDomainPolicies({ permittedPolicies: 'none' }));

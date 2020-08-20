@@ -4,12 +4,12 @@
 
 # TODO
 + gulp 处理 scss 资源
-+ 数据校验 DTO
-+ 连接数据库
-+ session redis
++ [x] 数据校验 DTO
++ [x] 连接数据库
++ [x] session redis
 + JWT
 + 日志记录
-+ 登录认证
++ [x] 登录认证
 + 文件上传
 + 邮件服务
 + 定时任务
