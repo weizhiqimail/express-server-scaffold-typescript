@@ -34,9 +34,6 @@ export class App {
   }
 
   public async initControllers() {
-    await this.controllers.forEach(controller =>
-      this.app.use('/', controller.router),
-    );
+    await this.controllers.forEach(controller => this.app.use('/', controller.router));
   }
-
 }

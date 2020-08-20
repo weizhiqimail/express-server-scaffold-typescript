@@ -1,18 +1,14 @@
-import { RequestHandler } from 'express';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { plainToClass } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
+import { parseValidationError } from '../helper/common';
 
-import HttpException from '../exception/http.exception';
-
-function validation<T>(
-  type: any,
-  skipMissingProperties = false,
-): RequestHandler {
-  return (req, res, next) => {
-    let METHOD = req.method.toUpperCase();
+export default function validation<T>(type: any, skipMissingProperties = false): RequestHandler {
+  return (req: Request, res: Response, next: NextFunction) => {
+    let method = req.method.toUpperCase();
     let validateParams;
 
-    if (METHOD === 'GET') {
+    if (method === 'GET') {
       validateParams = req.query;
     } else {
       validateParams = req.body;
@@ -22,15 +18,11 @@ function validation<T>(
       skipMissingProperties,
     }).then((errors: Array<ValidationError>) => {
       if (errors.length > 0) {
-        const message = errors
-          .map((error: ValidationError) => Object.values(error.constraints))
-          .join(', ');
-        next(new HttpException(400, message));
+        const messages = errors.map((error: ValidationError) => parseValidationError(error));
+        return res.status(400).json({ messages });
       } else {
         next();
       }
     });
   };
 }
-
-export default validation;

@@ -1,18 +1,15 @@
+import { createConnection } from 'typeorm';
 import { App } from './app';
-import { API_CONFIG } from './config';
 
 import ViewsController from './modules/views/views.controller';
 import UsersController from './modules/users/users.controller';
 import AuthController from './modules/auth/auth.controller';
 
 async function bootstrap() {
-  const app = new App([
-    new ViewsController({ path: '/' }),
-    new UsersController({ path: `/${API_CONFIG.version}/users` }),
-    new AuthController({ path: `/${API_CONFIG.version}/auth` }),
-  ]);
-
-  await app.start();
+  createConnection().then(async () => {
+    const app = new App([new ViewsController(), new UsersController(), new AuthController()]);
+    await app.start();
+  });
 }
 
 bootstrap();

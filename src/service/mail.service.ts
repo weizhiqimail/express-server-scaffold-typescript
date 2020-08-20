@@ -5,7 +5,7 @@ export class MailService {
 let service;
 export default (options = {}) => {
   if (!service) {
-    service = new MailService(options);
+    service = new MailService();
   }
   return service;
 };

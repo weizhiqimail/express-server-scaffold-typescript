@@ -1,4 +1,5 @@
 import os from 'os';
+import { ValidationError } from 'class-validator';
 
 export const getIPAddress = (): string => {
   const interfaces = os.networkInterfaces();
@@ -12,3 +13,9 @@ export const getIPAddress = (): string => {
     }
   }
 };
+
+export function parseValidationError(error: ValidationError) {
+  return {
+    [error.property]: Object.values(error.constraints),
+  };
+}
