@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { ControllerInterface } from '../../interfaces/controller.interface';
+import { ControllerInterface } from '../../types/controller.interface';
 import usersService, { UsersService } from './users.service';
 
 export default class UsersController implements ControllerInterface {

@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { ControllerInterface } from './interfaces/controller.interface';
+import { ControllerInterface } from './types/controller.interface';
 import { getIPAddress } from './helper/common';
 import initMiddlewares from './middlewares';
 
@@ -31,7 +31,6 @@ export class App {
   public async initApp(app) {
     await initMiddlewares(app);
     await this.initControllers();
-    await this.initMySql();
   }
 
   public async initControllers() {
@@ -40,5 +39,4 @@ export class App {
     );
   }
 
-  public async initMySql() {}
 }

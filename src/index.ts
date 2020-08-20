@@ -1,5 +1,4 @@
 import { App } from './app';
-import initEnv from './helper/initEnv';
 import { API_CONFIG } from './config';
 
 import ViewsController from './modules/views/views.controller';
@@ -7,8 +6,6 @@ import UsersController from './modules/users/users.controller';
 import AuthController from './modules/auth/auth.controller';
 
 async function bootstrap() {
-  await initEnv();
-
   const app = new App([
     new ViewsController({ path: '/' }),
     new UsersController({ path: `/${API_CONFIG.version}/users` }),

@@ -1,6 +1,6 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 
-import { ControllerInterface } from '../../interfaces/controller.interface';
+import { ControllerInterface } from '../../types/controller.interface';
 import authService, { AuthService } from './auth.service';
 
 export default class AuthController implements ControllerInterface {
@@ -19,4 +19,14 @@ export default class AuthController implements ControllerInterface {
   }
 
   public initRoutes() {}
+
+  private async register(req: Request, res: Response) {
+
+  }
+
+  private async login(req: Request, res: Response) {
+
+  }
+
+
 }

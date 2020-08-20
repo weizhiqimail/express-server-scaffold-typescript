@@ -1,7 +1,7 @@
 import fs from 'fs';
 import dotenv from 'dotenv';
 
-export default function initEnv() {
+function initEnv() {
   const nodeEnvTypes = ['development', 'production', 'test'];
 
   if (!nodeEnvTypes.includes(process.env.NODE_ENV)) {
@@ -19,3 +19,5 @@ export default function initEnv() {
     .reverse()
     .forEach(dotenvFile => dotenv.config({ path: dotenvFile }));
 }
+
+initEnv();
