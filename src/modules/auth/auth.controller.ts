@@ -46,6 +46,6 @@ export default class AuthController implements ControllerInterface {
       return loginFailResponse(res, '登录失败，用户名或密码错误');
     }
     req.session.user = checkUser;
-    return unifyResponse(res);
+    return res.redirect('/');
   }
 }

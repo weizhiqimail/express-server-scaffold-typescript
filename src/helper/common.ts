@@ -1,7 +1,8 @@
 import os from 'os';
 import crypto from 'crypto';
+import moment from 'moment';
 
-export const getIPAddress = (): string => {
+export function getIPAddress(): string {
   const interfaces = os.networkInterfaces();
   for (const key in interfaces) {
     const iface = interfaces[key];
@@ -12,7 +13,7 @@ export const getIPAddress = (): string => {
       }
     }
   }
-};
+}
 
 export function hashPassword(password: string): string {
   return crypto
@@ -20,4 +21,13 @@ export function hashPassword(password: string): string {
     .update(password)
     .update(process.env.PASSWORD_SALT)
     .digest('hex');
+}
+
+export function formatTime(time: Date | string, hasTime: boolean = true): string {
+  const newTime: string = moment(new Date(time)).format('YYYY-MM-DD HH:mm:ss');
+  const [date, _time] = newTime.split(' ');
+  if (hasTime) {
+    return `${date} ${_time}`;
+  }
+  return date;
 }

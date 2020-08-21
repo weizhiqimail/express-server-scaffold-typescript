@@ -15,7 +15,10 @@ import { MORGAN_LOG_FORMAT } from '../config';
 import pkg from '../../package.json';
 
 export default async function initMiddlewares(server) {
-  const redisClient = redis.createClient(parseInt(process.env.REDIS_PORT, 10), process.env.REDIS_HOST);
+  const redisClient = redis.createClient(
+    parseInt(process.env.REDIS_PORT, 10),
+    process.env.REDIS_HOST
+  );
   const RedisStore = connectRedis(session);
   server.use(
     session({
