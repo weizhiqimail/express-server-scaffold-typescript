@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node --project tsconfig.json src/server.ts",
+    "clean": "rimraf dist",
     "nodemon": "nodemon",
+    "compile": "tsc",
+    "prod": "node -r ./scripts/initEnv.js ./src/index.js",
     "format": "prettier --write \"src/**/*.ts\" \"raw_assets/javascript/**/*.js\""
   },
   "repository": {
@@ -42,8 +44,10 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "0x": "^4.9.1",
     "@babel/core": "^7.11.4",
     "@babel/preset-env": "^7.11.0",
+    "@types/autocannon": "^4.1.0",
     "@types/body-parser": "^1.19.0",
     "@types/connect-flash": "^0.0.35",
     "@types/connect-redis": "^0.0.14",
@@ -51,17 +55,21 @@
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.7",
     "@types/express-session": "^1.17.0",
+    "@types/fs-extra": "^9.0.1",
     "@types/helmet": "^0.0.47",
     "@types/moment": "^2.13.0",
     "@types/morgan": "^1.9.1",
+    "@types/ncp": "^2.0.4",
     "@types/node": "^14.6.0",
     "@types/redis": "^2.8.25",
     "@types/statuses": "^2.0.0",
+    "autocannon": "^6.1.0",
     "del": "^5.1.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
+    "fs-extra": "^9.0.1",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-babel": "^8.0.0",
@@ -72,6 +80,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
     "morgan": "^1.10.0",
+    "ncp": "^2.0.0",
     "prettier": "^1.19.1",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"

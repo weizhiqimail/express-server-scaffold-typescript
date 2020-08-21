@@ -31,3 +31,4 @@ export function formatTime(time: Date | string, hasTime: boolean = true): string
   }
   return date;
 }
+

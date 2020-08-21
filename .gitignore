@@ -84,3 +84,5 @@ typings/
 # gulp
 assets/
 
+# prod
+dist/

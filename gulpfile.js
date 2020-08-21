@@ -11,8 +11,9 @@ const javascriptObfuscator = require('gulp-javascript-obfuscator');
 const babel = require('gulp-babel');
 const sourcemaps = require('gulp-sourcemaps');
 const del = require('del');
-
+const ncp = require('ncp').ncp;
 const initEnv = require('./scripts/initEnv');
+const { checkTargetPath } = require('./scripts/helper');
 
 initEnv();
 
@@ -24,27 +25,27 @@ sass.compiler = require('node-sass');
 const PATH = {
   image: {
     src: './raw_assets/image/**/*',
-    dist: './assets/assets/image',
+    dist: './dist/assets/assets/image',
   },
   styleSass: {
     src: './raw_assets/scss/**/*.scss',
-    dist: './assets/assets/style',
+    dist: './dist/assets/assets/style',
   },
   styleCss: {
     src: './raw_assets/css/**/*.css',
-    dist: './assets/assets/style',
+    dist: './dist/assets/assets/style',
   },
   javascript: {
     src: './raw_assets/javascript/*.js',
-    dist: './assets/assets/javascript',
+    dist: './dist/assets/assets/javascript',
   },
   font: {
     src: './raw_assets/font/**/*',
-    dist: './assets/assets/font',
+    dist: './dist/assets/assets/font',
   },
   lib: {
     src: './raw_assets/lib/**/*',
-    dist: './assets/assets/lib',
+    dist: './dist/assets/assets/lib',
   },
 };
 
@@ -100,19 +101,56 @@ function watch(done) {
   done();
 }
 
-function clean() {
-  return del(['static']);
+function copy() {
+  return new Promise((resolve, reject) => {
+    mkdirSync('./dist/assets');
+    mkdirSync('./dist/assets/assets');
+    copyDir('./assets', './dist/assets/assets');
+    copyDir('./scripts', './dist/scripts');
+    copyDir('./views', './dist/views');
+    copyFile('./.env', './dist/.env');
+    copyFile('./package.json', './dist/package.json');
+    copyFile('./ormconfig.js', './dist/ormconfig.js');
+    copyFile('./ecosystem.config.js', './dist/ecosystem.config.js');
+    setTimeout(() => {
+      return resolve(true);
+    });
+  });
 }
 
-function checkTargetPath(targetPath) {
-  const exist = fs.existsSync(targetPath);
+function copyDir(fromPath, targetPath) {
+  fromPath = absolutePath(fromPath);
+  targetPath = absolutePath(targetPath);
+  checkTargetPath(fromPath);
+  checkTargetPath(targetPath);
+  ncp(fromPath, targetPath, err => {
+    if (err) {
+      console.log(err);
+    }
+  });
+}
+
+function copyFile(fromPath, targetPath) {
+  fromPath = absolutePath(fromPath);
+  targetPath = absolutePath(targetPath);
+  const data = fs.readFileSync(fromPath, 'utf8');
+  fs.writeFileSync(targetPath, data, 'utf8');
+}
+
+function mkdirSync(dir) {
+  const p = path.resolve(__dirname, dir);
+  const exist = fs.existsSync(p);
   if (!exist) {
-    fs.mkdirSync(targetPath);
+    fs.mkdirSync(p);
   }
 }
 
-checkTargetPath(path.resolve(__dirname, './assets'));
+function absolutePath(p) {
+  return path.resolve(__dirname, p);
+}
 
-const build = gulp.series(clean, gulp.parallel(image, font, styleSass, styleCss, lib, javascript));
+checkTargetPath(path.resolve(__dirname, './dist'));
+
+const build = gulp.series(gulp.parallel(image, font, styleSass, styleCss, lib, javascript, copy));
 
 exports.default = gulp.series(build, watch);
