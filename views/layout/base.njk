@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}{{ scaffold.title }}{% endblock %}</title>
-    <link rel="stylesheet" href="/libs/bootstrap-4.5.0/css/bootstrap.min.css">
-    {% block custom_css %}{% endblock %}
+  <meta charset="UTF-8">
+  <title>{% block title %}{{ scaffold.title }}{% endblock %}</title>
+  <link rel="stylesheet" href="/assets/style/normalize-8.0.1.min.css">
+  <link rel="stylesheet" href="/assets/lib/purecss-2.0.3/pure-min.css">
+  <link rel="stylesheet" href="/assets/style/common.min.css">
+  {% block custom_css %}{% endblock %}
 </head>
+
 <body>
 
 {% block custom_content %}
 {% endblock %}
 
-<script src="/libs/jquery-3.5.1/jquery.min.js"></script>
-<script src="/libs/bootstrap-4.5.0/js/bootstrap.min.js"></script>
+<script src="/assets/lib/jquery-3.5.1/jquery.min.js"></script>
 
 {% block custom_js %}
 {% endblock %}

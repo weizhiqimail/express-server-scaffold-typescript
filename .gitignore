@@ -81,5 +81,6 @@ typings/
 .idea/
 .vscode/
 
-
+# gulp
+assets/
 

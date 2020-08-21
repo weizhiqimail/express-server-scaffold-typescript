@@ -18,5 +18,3 @@ export function existResponse(res: Response, msg: string) {
 export function loginFailResponse(res: Response, msg: string) {
   return res.status(400).json({ error: msg });
 }
-
-

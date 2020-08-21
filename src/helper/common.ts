@@ -15,7 +15,8 @@ export const getIPAddress = (): string => {
 };
 
 export function hashPassword(password: string): string {
-  return crypto.createHash('md5')
+  return crypto
+    .createHash('md5')
     .update(password)
     .update(process.env.PASSWORD_SALT)
     .digest('hex');

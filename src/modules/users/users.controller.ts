@@ -1,16 +1,13 @@
 import express, { Request, Response } from 'express';
 
 import { ControllerInterface } from '../../types/controller.interface';
-import usersService, { UsersService } from './users.service';
 
 export default class UsersController implements ControllerInterface {
   public path: string;
   public router = express.Router();
-  private usersService: UsersService;
 
   constructor() {
     this.path = '/entity';
-    this.usersService = usersService();
     this.initRoutes();
   }
 

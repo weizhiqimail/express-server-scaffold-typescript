@@ -45,6 +45,7 @@ export default async function initMiddlewares(server) {
 
   server.use(authMiddleware());
   server.use(errorHandleMiddleware);
+  server.use(express.static(path.resolve(__dirname, '../../assets')));
   server.use(express.static(path.resolve(__dirname, '../../public')));
 
   server.use(helmet.permittedCrossDomainPolicies({ permittedPolicies: 'none' }));
