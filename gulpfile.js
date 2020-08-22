@@ -25,27 +25,27 @@ sass.compiler = require('node-sass');
 const PATH = {
   image: {
     src: './raw_assets/image/**/*',
-    dist: './dist/assets/assets/image',
+    dist: './assets/assets/image',
   },
   styleSass: {
     src: './raw_assets/scss/**/*.scss',
-    dist: './dist/assets/assets/style',
+    dist: './assets/assets/style',
   },
   styleCss: {
     src: './raw_assets/css/**/*.css',
-    dist: './dist/assets/assets/style',
+    dist: './assets/assets/style',
   },
   javascript: {
     src: './raw_assets/javascript/*.js',
-    dist: './dist/assets/assets/javascript',
+    dist: './assets/assets/javascript',
   },
   font: {
     src: './raw_assets/font/**/*',
-    dist: './dist/assets/assets/font',
+    dist: './assets/assets/font',
   },
   lib: {
     src: './raw_assets/lib/**/*',
-    dist: './dist/assets/assets/lib',
+    dist: './assets/assets/lib',
   },
 };
 
@@ -104,8 +104,7 @@ function watch(done) {
 function copy() {
   return new Promise((resolve, reject) => {
     mkdirSync('./dist/assets');
-    mkdirSync('./dist/assets/assets');
-    copyDir('./assets', './dist/assets/assets');
+    copyDir('./assets', './dist/assets');
     copyDir('./scripts', './dist/scripts');
     copyDir('./views', './dist/views');
     copyFile('./.env', './dist/.env');
@@ -149,8 +148,12 @@ function absolutePath(p) {
   return path.resolve(__dirname, p);
 }
 
+function clean() {
+  return del(['./dist/assets', './dist/views', './dist/scripts', './dist/logs'])
+}
+
 checkTargetPath(path.resolve(__dirname, './dist'));
 
-const build = gulp.series(gulp.parallel(image, font, styleSass, styleCss, lib, javascript, copy));
+const build = gulp.series(clean, gulp.parallel(image, font, styleSass, styleCss, lib, javascript, copy));
 
 exports.default = gulp.series(build, watch);

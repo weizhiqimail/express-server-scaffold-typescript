@@ -1,7 +1,5 @@
-const pkg = require('./package.json');
-
 module.exports = {
-  name: pkg.name,
+  name: '脚手架',
   script: './src/index.js',
   output: 'logs/out.log',
   error: 'logs/error.log',
