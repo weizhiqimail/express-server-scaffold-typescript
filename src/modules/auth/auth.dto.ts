@@ -1,7 +1,7 @@
 import { IsEmail, Length } from 'class-validator';
-import { Match } from '../../helper/match';
 
-import { EMAIL, PASSWORD, CAPTCHA } from './auth.config';
+import { ClassValidatorMatch } from '../../helper/class-validator.match';
+import { EMAIL, PASSWORD, CAPTCHA } from './auth.data';
 
 export class AuthLoginDto {
   @IsEmail({}, { message: EMAIL.isEmailMessage })
@@ -23,7 +23,7 @@ export class AuthRegisterDto extends AuthLoginDto {
   @Length(PASSWORD.minLength, PASSWORD.maxLength, {
     message: PASSWORD.lengthMessage,
   })
-  @Match('password', {
+  @ClassValidatorMatch('password', {
     message: PASSWORD.matchMessage,
   })
   public password2: string;

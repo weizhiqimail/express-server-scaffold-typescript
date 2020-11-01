@@ -1,7 +1,8 @@
 import url from 'url';
 import { NextFunction, Request, Response } from 'express';
 
-import LOGIN_WHITE_LIST, { AUTH_LOGIN, AUTH_REGISTER, ASSETS_PATH } from '../config/url-white-list';
+import { LOGIN_WHITE_LIST } from '../config/auth.config';
+import { ASSETS_PATH, AUTH_REGISTER, AUTH_LOGIN } from '../../dist/src/config/url-white-list';
 
 export default function authMiddleware() {
   return (req: Request, res: Response, next: NextFunction) => {

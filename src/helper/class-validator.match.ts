@@ -6,7 +6,7 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-@ValidatorConstraint({ name: 'Match' })
+@ValidatorConstraint({ name: 'ClassValidatorMatch' })
 export class MatchConstraint implements ValidatorConstraintInterface {
   validate(value: any, args: ValidationArguments) {
     const [relatedPropertyName] = args.constraints;
@@ -15,7 +15,7 @@ export class MatchConstraint implements ValidatorConstraintInterface {
   }
 }
 
-export function Match(property: string, validationOptions?: ValidationOptions) {
+export function ClassValidatorMatch(property: string, validationOptions?: ValidationOptions) {
   return (object: any, propertyName: string) => {
     registerDecorator({
       target: object.constructor,

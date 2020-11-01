@@ -1,15 +1,14 @@
 import { createConnection } from 'typeorm';
-import { App } from './app';
 
+import { App } from './app';
 import ViewsController from './modules/views/views.controller';
 import UsersController from './modules/users/users.controller';
 import AuthController from './modules/auth/auth.controller';
 
 async function bootstrap() {
-  createConnection().then(async () => {
-    const app = new App([new ViewsController(), new UsersController(), new AuthController()]);
-    await app.start();
-  });
+  await createConnection();
+  const app = new App([new ViewsController(), new UsersController(), new AuthController()]);
+  await app.start();
 }
 
 bootstrap();

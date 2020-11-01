@@ -1,10 +1,9 @@
 import path from 'path';
 import winston from 'winston';
 import expressWinston from 'express-winston';
-import { formatTime } from '../helper/common';
+import { formatDateTime } from 'easybus';
 
-const today = formatTime(new Date(), false);
-
+const today = formatDateTime(new Date());
 const normalFileName = `${today}-normal.log`;
 const errorFileName = `${today}-error.log`;
 
@@ -19,20 +18,13 @@ const loggerMiddleware = {
         maxFiles: 100,
         filename: normalFileName,
       }),
-      // new winston.transports.Console({
-      //   level: 'debug',
-      //   handleExceptions: true,
-      // }),
     ],
     meta: true,
     msg: 'HTTP {{ req.method }} {{ req.url }}',
     expressFormat: true,
     colorize: false,
     ignoreRoute: () => false,
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.json(),
-    ),
+    format: winston.format.combine(winston.format.colorize(), winston.format.json()),
   }),
   errorLogger: expressWinston.errorLogger({
     transports: [
@@ -40,12 +32,8 @@ const loggerMiddleware = {
         dirname: path.resolve(__dirname, '../../logs'),
         filename: errorFileName,
       }),
-      // new winston.transports.Console(),
     ],
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.json(),
-    ),
+    format: winston.format.combine(winston.format.colorize(), winston.format.json()),
   }),
 };
 

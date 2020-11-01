@@ -1,3 +1,4 @@
+require('./scripts/initEnv');
 const path = require('path');
 const fs = require('fs');
 const gulp = require('gulp');
@@ -12,10 +13,8 @@ const babel = require('gulp-babel');
 const sourcemaps = require('gulp-sourcemaps');
 const del = require('del');
 const ncp = require('ncp').ncp;
-const initEnv = require('./scripts/initEnv');
-const { checkTargetPath } = require('./scripts/helper');
 
-initEnv();
+const { checkTargetPath } = require('./scripts/helper');
 
 const IS_DEV = process.env.NODE_ENV === 'development';
 const IS_PROD = process.env.NODE_ENV === 'production';

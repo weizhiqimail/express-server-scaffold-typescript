@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { ControllerInterface } from './types/controller.interface';
-import { getIPAddress } from './helper/common';
+import { getIPAddress } from './helper/utils';
 import initMiddlewares from './middlewares';
 import loggerMiddleware from './middlewares/logger.middleware';
 

@@ -1,12 +1,11 @@
 import redis from 'redis';
 
-const redisClient = redis.createClient(
-  parseInt(process.env.REDIS_PORT, 10),
-  process.env.REDIS_HOST,
-);
+import { GLOBAL_RESPONSE_CODE } from '../config/response-code.config';
+
+const redisClient = redis.createClient(parseInt(process.env.REDIS_PORT, 10), process.env.REDIS_HOST);
 
 redisClient.on('error', error => {
-  console.log('redis 出错');
+  console.log(GLOBAL_RESPONSE_CODE.REDIS_ERROR[1]);
   console.log(error);
 });
 

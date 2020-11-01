@@ -7,5 +7,4 @@ function checkTargetPath(targetPath) {
   }
 }
 
-
 exports.checkTargetPath = checkTargetPath;

@@ -1080,7 +1080,7 @@ function createPositionalPseudo( fn ) {
 				matchIndexes = fn( [], seed.length, argument ),
 				i = matchIndexes.length;
 
-			// Match elements found at the specified indexes
+			// ClassValidatorMatch elements found at the specified indexes
 			while ( i-- ) {
 				if ( seed[ ( j = matchIndexes[ i ] ) ] ) {
 					seed[ j ] = !( matches[ j ] = seed[ j ] );
@@ -2100,7 +2100,7 @@ Expr = Sizzle.selectors = {
 						unmatched = matcher( seed, null, xml, [] ),
 						i = seed.length;
 
-					// Match elements unmatched by `matcher`
+					// ClassValidatorMatch elements unmatched by `matcher`
 					while ( i-- ) {
 						if ( ( elem = unmatched[ i ] ) ) {
 							seed[ i ] = !( matches[ i ] = elem );
@@ -3155,7 +3155,7 @@ var rootjQuery,
 				match = rquickExpr.exec( selector );
 			}
 
-			// Match html or make sure no context is specified for #id
+			// ClassValidatorMatch html or make sure no context is specified for #id
 			if ( match && ( match[ 1 ] || !context ) ) {
 
 				// HANDLE: $(html) -> $(array)
@@ -9572,7 +9572,7 @@ jQuery.extend( {
 		s.hasContent = !rnoContent.test( s.type );
 
 		// Save the URL in case we're toying with the If-Modified-Since
-		// and/or If-None-Match header later on
+		// and/or If-None-ClassValidatorMatch header later on
 		// Remove hash to simplify url manipulation
 		cacheURL = s.url.replace( rhash, "" );
 
@@ -9606,13 +9606,13 @@ jQuery.extend( {
 			s.data = s.data.replace( r20, "+" );
 		}
 
-		// Set the If-Modified-Since and/or If-None-Match header, if in ifModified mode.
+		// Set the If-Modified-Since and/or If-None-ClassValidatorMatch header, if in ifModified mode.
 		if ( s.ifModified ) {
 			if ( jQuery.lastModified[ cacheURL ] ) {
 				jqXHR.setRequestHeader( "If-Modified-Since", jQuery.lastModified[ cacheURL ] );
 			}
 			if ( jQuery.etag[ cacheURL ] ) {
-				jqXHR.setRequestHeader( "If-None-Match", jQuery.etag[ cacheURL ] );
+				jqXHR.setRequestHeader( "If-None-ClassValidatorMatch", jQuery.etag[ cacheURL ] );
 			}
 		}
 
@@ -9738,7 +9738,7 @@ jQuery.extend( {
 			// If successful, handle type chaining
 			if ( isSuccess ) {
 
-				// Set the If-Modified-Since and/or If-None-Match header, if in ifModified mode.
+				// Set the If-Modified-Since and/or If-None-ClassValidatorMatch header, if in ifModified mode.
 				if ( s.ifModified ) {
 					modified = jqXHR.getResponseHeader( "Last-Modified" );
 					if ( modified ) {

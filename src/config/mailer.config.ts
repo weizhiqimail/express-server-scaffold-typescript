@@ -1,4 +1,4 @@
-export default {
+const MAILER_CONFIG = {
   host: '',
   port: 465,
   secure: true,
@@ -7,3 +7,5 @@ export default {
     password: process.env.E_MAILER_PASSWORD,
   },
 };
+
+export default MAILER_CONFIG;

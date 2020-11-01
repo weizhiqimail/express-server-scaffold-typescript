@@ -6,8 +6,8 @@ import authService from './auth.service';
 import usersOrmService from '../../orm/users.orm.service';
 import { AuthLoginDto, AuthRegisterDto } from './auth.dto';
 import { Users } from '../../orm/entity/users.entity';
-import { existResponse, loginFailResponse, unifyResponse } from '../../helper/return-data';
-import { hashPassword } from '../../helper/common';
+import { normalResponse, errorResponse } from '../../helper/unifyResponse';
+import { hashPassword } from '../../helper/utils';
 
 export default class AuthController implements ControllerInterface {
   public path: string;
@@ -27,25 +27,23 @@ export default class AuthController implements ControllerInterface {
     const body: AuthRegisterDto = req.body;
     const checkUser = await usersOrmService.findByEmailOrm(body.email);
     if (checkUser) {
-      return existResponse(res, '邮箱已被使用');
+      return errorResponse(res, '邮箱已被使用');
     }
     const user = new Users();
     user.email = body.email;
     user.password = hashPassword(body.password);
     const result = await usersOrmService.createUserOrm(user);
-    return unifyResponse(res, { data: result });
+    return normalResponse(res, { data: result });
   }
 
   public async login(req: Request, res: Response) {
     const body: AuthLoginDto = req.body;
     const checkUser = await usersOrmService.findByEmailOrm(body.email);
     if (!checkUser) {
-      return existResponse(res, '邮箱不存在');
+      return errorResponse(res, '邮箱不存在');
     }
     if (!authService.comparePassword(checkUser.password, body.password)) {
-      return loginFailResponse(res, '登录失败，用户名或密码错误');
+      return errorResponse(res, '登录失败，用户名或密码错误');
     }
-    req.session.user = checkUser;
-    return res.redirect('/');
   }
 }

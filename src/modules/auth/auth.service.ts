@@ -1,4 +1,4 @@
-import { hashPassword } from '../../helper/common';
+import { hashPassword } from '../../helper/utils';
 
 export function comparePassword(oldPassword, newPassword): boolean {
   return hashPassword(newPassword) === oldPassword;
