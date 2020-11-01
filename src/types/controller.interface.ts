@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-export interface ControllerInterface {
+export abstract class ControllerInterface {
   path: string;
 
   router: Router;

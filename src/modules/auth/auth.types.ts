@@ -15,3 +15,15 @@ export const AUTH_RESPONSE_CODE: IAuthResponseCode = {
   USERNAME_NOT_EXIST: ['USERNAME_NOT_EXIST', '用户邮箱已被使用', BAD_REQUEST],
   USERNAME_PASSWORD_WRONG: ['USERNAME_PASSWORD_WRONG', '用户名或密码错误', BAD_REQUEST],
 };
+
+export interface IJwtSign {
+  token: string;
+  user: object;
+  iat: number;
+  exp: number;
+}
+
+export interface ILoginResultData extends IJwtSign {
+  id: string | number;
+  email?: string;
+}

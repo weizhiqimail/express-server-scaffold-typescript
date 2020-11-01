@@ -1,6 +1,8 @@
 {
   "watch": ["./src/**/*.ts"],
   "ignore": ["./src/**/*.spec.ts"],
-  "exec": "ts-node -r ./scripts/initEnv.js ./src/index.ts",
+  "exec": "cross-env NODE_ENV=development ts-node --files ./src/index.ts",
+  "verbose": true,
+  "restartablse": "rs",
   "ext": "js,ts,json"
 }

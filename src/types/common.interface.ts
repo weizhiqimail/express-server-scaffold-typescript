@@ -8,6 +8,7 @@ export interface INormalResponse {
 }
 
 export interface IErrorResponse {
+  method?: string;
   url?: string;
   status?: number;
   time?: string;

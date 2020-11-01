@@ -1,5 +1,5 @@
-const fs = require('fs');
-const dotenv = require('dotenv');
+import fs from 'fs';
+import dotenv from 'dotenv';
 
 function initEnv() {
   const nodeEnvTypes = ['development', 'production', 'test'];
@@ -15,11 +15,7 @@ function initEnv() {
     `.env.${process.env.NODE_ENV}.local`,
   ].filter(fs.existsSync);
 
-  dotenvFiles
-    .reverse()
-    .forEach(dotenvFile => dotenv.config({ path: dotenvFile }));
+  dotenvFiles.reverse().forEach(dotenvFile => dotenv.config({ path: dotenvFile }));
 }
 
 initEnv();
-
-module.exports = initEnv;

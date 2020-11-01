@@ -12,7 +12,6 @@ export const PASSWORD = {
   matchMessage: '两次输入的密码不一致',
 };
 
-export const CAPTCHA = {
-  length: 6,
-  lengthMessage: '验证码长度必须为 6 位',
+export const NEED_USER = {
+  isBoolean: 'needUser 必须是布尔值',
 };

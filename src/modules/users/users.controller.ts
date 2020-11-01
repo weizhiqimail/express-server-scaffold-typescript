@@ -4,6 +4,7 @@ import { ControllerInterface } from '../../types/controller.interface';
 
 export default class UsersController implements ControllerInterface {
   public path: string;
+
   public router = express.Router();
 
   constructor() {
