@@ -9,38 +9,22 @@ import logger from '../helper/logger';
 
 const { UNAUTHORIZED } = StatusCodes;
 
-const WHITE_AUTH_LIST = [
-  '/api/v1/USER/register',
-  '/api/v1/USER/login',
-  '/api/v1/USER/validate-token',
-];
+const WHITE_AUTH_LIST = ['/api/v1/USER/register', '/api/v1/USER/login', '/api/v1/USER/validate-token'];
 
-export default function authJwtMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+export default function authJwtMiddleware(req: Request, res: Response, next: NextFunction) {
   const path = req.path;
   if (WHITE_AUTH_LIST.includes(path)) {
     return next();
   }
   const authorization = req.headers['authorization'];
   if (!authorization) {
-    logger.error('没有 authorization');
-    return errorResponse(
-      res,
-      RESPONSE_CODE.UNAUTHORIZED.phraseCn,
-      UNAUTHORIZED,
-    );
+    logger.error('no authorization');
+    return errorResponse(res, RESPONSE_CODE.UNAUTHORIZED.phraseCn, UNAUTHORIZED);
   }
   const token: IJwtSign = verifyJwtToken(authorization, process.env.JWT_SECRET);
   if (!token) {
     logger.error('token parse failed');
-    return errorResponse(
-      res,
-      RESPONSE_CODE.UNAUTHORIZED.phraseCn,
-      UNAUTHORIZED,
-    );
+    return errorResponse(res, RESPONSE_CODE.UNAUTHORIZED.phraseCn, UNAUTHORIZED);
   }
 
   if (!req.$server) {
