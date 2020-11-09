@@ -1,9 +1,8 @@
 import { Response } from 'express';
 import { formatDateTime, isString } from 'easybus';
+import { IErrorResponse, INormalResponse } from '../types/http.types';
 
-import { IErrorResponse, INormalResponse } from '../types/common.interface';
-
-export function normalResponse(res: Response, result: INormalResponse = {}, status = 200) {
+export function normalResponse(res: Response, result: INormalResponse | any = {}, status = 200) {
   if (!result.profile) {
     result.profile = {};
   }
@@ -14,22 +13,22 @@ export function normalResponse(res: Response, result: INormalResponse = {}, stat
 }
 
 export function errorResponse(res: Response, errorResponse: IErrorResponse | string, status = 400) {
-  let url = res.$scaffold.url;
+  let path = res.req.path;
 
   let result: IErrorResponse = {};
   if (isString(errorResponse)) {
     result.error = errorResponse as string;
-    result.url = url;
+    result.path = path;
     result.status = status;
     result.time = formatDateTime(new Date());
     return res.json(status).json(result);
   }
 
-  if (!result.url) {
-    result.url = url;
+  if (!result.path) {
+    result.path = path;
   }
   if (!result.error) {
-    result.error = '请求出错';
+    result.error = 'Request Error';
   }
   if (!result.time) {
     result.time = formatDateTime(new Date());

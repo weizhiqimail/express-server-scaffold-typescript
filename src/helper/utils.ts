@@ -1,9 +1,19 @@
 import os from 'os';
+import fs from 'fs';
+import path from 'path';
 import crypto from 'crypto';
 import jwt, { SignOptions } from 'jsonwebtoken';
 import killPort from 'kill-port';
-import { addDateTime, DateTypeEnum, isObject } from 'easybus';
-import { IJwtSign } from '../modules/auth/auth.types';
+import { addDateTime, DateTypeEnum, isObject, formatDateTime } from 'easybus';
+import { StatusCodes } from 'http-status-codes';
+import { AxiosError } from 'axios';
+import { Response } from 'express';
+
+import { IJwtSign } from '../modules/user/user.types';
+import { ValidationError } from 'class-validator';
+import { IErrorResponse } from '../types/http.types';
+import logger from './logger';
+import { ILayerRoute, IRouteSet } from '../types/express.types';
 
 export function getIPAddress(): string {
   const interfaces = os.networkInterfaces();
@@ -64,4 +74,54 @@ export function transformToPlainObject(obj: any) {
     }
   }
   return result;
+}
+
+export function parseValidateErrors(res: Response, errors: Array<ValidationError>): IErrorResponse {
+  const errorMessage = {};
+  errors.forEach((error: ValidationError) => {
+    const key = error.property;
+    errorMessage[key] = Object.values(error.constraints);
+  });
+  const { method, path, hostname, query, body } = res.req;
+  return {
+    method,
+    path,
+    hostname,
+    error: errorMessage,
+    status: StatusCodes.BAD_REQUEST,
+    time: formatDateTime(new Date()),
+    query,
+    body,
+  };
+}
+
+export function cutObjectExtraProperties(source: object = {}, target: object = {}) {
+  for (let key in target) {
+    if (target.hasOwnProperty(key)) {
+      if (!source.hasOwnProperty(key)) {
+        delete target[key];
+      }
+    }
+  }
+}
+
+export async function parseAxiosError(error: AxiosError) {
+  delete error.request;
+  const time = formatDateTime();
+  const axiosErrorDir = path.resolve(__dirname, '../../logs');
+  const fileName = `${time}-axios-error.json`;
+  await fs.writeFileSync(`${axiosErrorDir}/${fileName}`, JSON.stringify(error));
+  logger.axios(`Record Axios Error Success. Written File ${fileName}`);
+}
+
+export function parseExpressLayerRoute(route: ILayerRoute): Array<IRouteSet> {
+  const arr: Array<IRouteSet> = [];
+  const path = route.path;
+  const methods = route.methods;
+  for (let method in methods) {
+    if (methods.hasOwnProperty(method)) {
+      arr.push({ path, method });
+    }
+  }
+  return arr;
 }

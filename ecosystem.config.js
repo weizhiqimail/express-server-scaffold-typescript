@@ -1,7 +1,7 @@
 module.exports = {
-  name: '脚手架',
+  name: 'express-scaffold',
   script: './src/index.js',
-  output: 'logs/out.log',
+  output: 'logs/output.log',
   error: 'logs/error.log',
   env: {
     NODE_ENV: 'production',

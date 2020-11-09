@@ -1,67 +1,38 @@
 import express, { Application } from 'express';
 import { parseToNumber } from 'easybus';
-import * as Sentry from '@sentry/node';
-import * as Tracing from '@sentry/tracing';
 
-import { ControllerInterface } from './types/controller.interface';
+import { ControllerInterface } from './types/global.types';
 import { getIPAddress } from './helper/utils';
-import { PORT } from './config/global.config';
-import initMiddlewares from './middlewares';
-import loggerMiddleware from './middlewares/logger.middleware';
-import notFoundMiddleware from './middlewares/not-found.middleware';
-import errorHandlerMiddleware from './middlewares/error-handler.middleware';
-
+import systemService from './service/system.service';
+import GLOBAL_CONFIG from './config/global.config';
+import logger from './helper/logger';
 
 export class App {
-  private readonly app: Application;
+  public readonly app: Application;
 
   private controllers: Array<ControllerInterface>;
 
   constructor(controllers: Array<ControllerInterface>) {
-    const app = express();
-    this.app = app;
+    this.app = express();
+
     this.controllers = controllers;
 
-    Sentry.init({
-      dsn: process.env.SENTRY_DSN,
-      integrations: [
-        new Sentry.Integrations.Http({ tracing: true }),
-        new Tracing.Integrations.Express({ app }),
-      ],
-      tracesSampleRate: 1.0,
-    });
+    this.initSystemTask(controllers);
   }
 
-  public async start() {
-    await this.initApp(this.app);
-
+  public async listen() {
+    const { PORT } = GLOBAL_CONFIG;
     this.app.listen(parseToNumber(process.env.PORT || PORT), () => {
-      console.log(`server is running at http://localhost:${PORT}`);
-      console.log(`server is running at http://${getIPAddress()}:${PORT}`);
+      logger.normal(`server is running at http://localhost:${PORT}`);
+      logger.normal(`server is running at http://${getIPAddress()}:${PORT}`);
     });
   }
 
-  public async initApp(app) {
-    await initMiddlewares(app);
-
-    app.use(Sentry.Handlers.requestHandler());
-
-    app.use(Sentry.Handlers.tracingHandler());
-
-    app.use(loggerMiddleware.normalLogger);
-
-    await this.initControllers();
-
-    app.use(loggerMiddleware.errorLogger);
-
-    app.use(notFoundMiddleware);
-
-    app.use(errorHandlerMiddleware);
-
-    app.use(Sentry.Handlers.errorHandler());
+  public initControllers() {
+    this.controllers.forEach(controller => this.app.use('/', controller.router));
   }
 
-  public async initControllers() {
-    await this.controllers.forEach(controller => this.app.use('/', controller.router));
+  public initSystemTask(controllers: Array<ControllerInterface>) {
+    systemService.printControllerRoutes(controllers);
   }
 }

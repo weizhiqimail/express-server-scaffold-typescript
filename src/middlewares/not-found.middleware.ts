@@ -1,16 +1,20 @@
 import { Request, Response } from 'express';
 import { formatDateTime } from 'easybus';
 
-import { IErrorResponse } from '../types/common.interface';
-import { GLOBAL_RESPONSE_CODE } from '../config/response-code.config';
+import { RESPONSE_CODE } from '../config/response-code.config';
+import { IErrorResponse } from '../types/http.types';
 
 export default function notFoundMiddleware(req: Request, res: Response) {
+  const { method, path, hostname, query, body } = req;
   const response: IErrorResponse = {
-    method: req.method,
-    url: req.url,
-    status: GLOBAL_RESPONSE_CODE.NOT_FOUND[2],
-    error: GLOBAL_RESPONSE_CODE.NOT_FOUND[1],
+    method,
+    hostname,
+    path,
+    status: RESPONSE_CODE.NOT_FOUND.status,
     time: formatDateTime(),
+    error: RESPONSE_CODE.NOT_FOUND.phraseCn,
+    query,
+    body,
   };
   res.status(response.status).json(response);
 }

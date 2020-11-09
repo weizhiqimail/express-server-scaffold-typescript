@@ -1,16 +1,23 @@
 import { NextFunction, Request, Response } from 'express';
 import { formatDateTime } from 'easybus';
 
-import { IErrorResponse } from '../types/common.interface';
-import { GLOBAL_RESPONSE_CODE } from '../config/response-code.config';
+import { RESPONSE_CODE } from '../config/response-code.config';
+import { IErrorResponse } from '../types/http.types';
+
+const { SERVER_ERROR } = RESPONSE_CODE;
 
 export default function errorHandlerMiddleware(error: Error, req: Request, res: Response, next: NextFunction) {
+  console.log(error);
+  const { method, path, hostname, query, body } = req;
   const response: IErrorResponse = {
-    method: req.method,
-    url: req.url,
-    status: GLOBAL_RESPONSE_CODE.SERVER_ERROR[2],
-    error: GLOBAL_RESPONSE_CODE.SERVER_ERROR[1],
+    method,
+    hostname,
+    path,
+    status: SERVER_ERROR.status,
     time: formatDateTime(),
+    error: SERVER_ERROR.phraseCn,
+    query,
+    body,
   };
   res.status(response.status).json(response);
 }
